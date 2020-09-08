@@ -1,0 +1,13 @@
+0_000.txt / AC / 0 ms
+0_001.txt / AC / 0 ms
+0_002.txt / AC / 0 ms
+1_003.txt / AC / 0 ms
+1_004.txt / AC / 279 ms
+1_005.txt / AC / 239 ms
+1_006.txt / AC / 195 ms
+1_007.txt / AC / 31 ms
+1_008.txt / AC / 2 ms
+1_009.txt / AC / 33 ms
+1_010.txt / AC / 3 ms
+1_011.txt / AC / 23 ms
+1_012.txt / AC / 2 ms

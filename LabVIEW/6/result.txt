@@ -1,0 +1,4 @@
+ex1.txt / AC / 0 ms
+ex2.txt / AC / 0 ms
+ex3.txt / AC / 0 ms
+random.txt / AC / 0 ms

@@ -1,0 +1,32 @@
+\def\print#1{\immediate\write16{#1}}%
+\def\substitute#1 #2;{\def\n{#1} \def\y{#2}}%
+\def\blank{ }
+%
+\read-1to\line%
+\expandafter\substitute\line;%
+\newcount\cntn \cntn=\n
+\newcount\cntnn \cntnn=\cntn \advance\cntnn by 1\relax%
+\newcount\cnty \cnty=\y \divide\cnty by 1000\relax%
+\newcount\cnti \cnti=0\relax%
+\newcount\ni \newcount\cntj \newcount\tmp \newcount\tmpp
+\newcount\flag \flag=0\relax%
+\loop \ifnum \cnti<\cntnn%
+  \ni=\cntnn \advance\ni by -\cnti\relax%
+  \cntj=0\relax%
+  {
+  \loop \ifnum \cntj<\ni
+    \tmp=\cntn\relax%
+    \tmpp=\cnti \multiply\tmpp by 9 \advance\tmp by \tmpp\relax%
+    \tmpp=\cntj \multiply\tmpp by 4 \advance\tmp by \tmpp\relax%
+    \ifnum \tmp=\cnty%
+      \tmp=\cntn \advance\tmp by -\cnti \advance\tmp by -\cntj\relax%
+      \print{\the\cnti\blank\the\cntj\blank\the\tmp}
+      \global\flag=1\relax% globalのついた演算・代入操作
+      \global\advance\cnti by \cntnn\relax%
+      \advance\cntj by \cntnn\relax%
+    \fi
+  \advance\cntj by 1 \repeat
+  }
+\advance\cnti by 1 \repeat%
+\ifnum \flag=0 \print{-1 -1 -1} \fi%
+\end%

@@ -1,0 +1,15 @@
+\def\print#1{\immediate\write16{#1}}
+%
+\read-1to\inS%
+\newcount\cX \newcount\cY \newcount\cZ%
+\cX=\inS \cY=\inS \cZ=\inS%
+\divide\cX by 100 \multiply\cX by 100%
+\advance\cY by -\cX \divide\cY by 10 \multiply\cY by 10%
+\advance\cZ by -\cX \advance\cZ by -\cY%
+\divide\cX by 100 \divide\cY by 10%
+\newcount\result \result=0%
+\ifodd \cX \advance\result by 1 \fi
+\ifodd \cY \advance\result by 1 \fi
+\ifodd \cZ \advance\result by 1 \fi
+\print{\the\result}
+\end

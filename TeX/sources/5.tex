@@ -1,0 +1,30 @@
+\def\print#1{\immediate\write16{#1}}%
+\def\substitute#1 #2 #3;{\def\inN{#1} \def\inA{#2} \def\inB{#3}}%
+%\def\blank{ }
+%
+\read-1to\inLine%
+\expandafter\substitute\inLine;%
+\newcount\cntA \cntA=\inA \advance\cntA by -1%
+\newcount\cntB \cntB=\inB \advance\cntB by 1% A<=k<=B ⇔ A-1<k<B+1
+\newcount\cntN \cntN=\inN \advance\cntN by 1%
+\newcount\cnti \cnti=1%
+\newcount\tmp \newcount\result \result=0%
+\newcount\disitA \newcount\disitB \newcount\disitC \newcount\disitD \newcount\disitE%
+\loop \ifnum \cnti<\cntN%
+  %高々5桁なので5桁調べる
+  \disitA=\cnti \divide\disitA by 10000 \multiply\disitA by 10000%
+  \disitB=\cnti \advance\disitB by -\disitA \divide\disitB by 1000 \multiply\disitB by 1000%
+  \disitC=\cnti \advance\disitC by -\disitA \advance\disitC by -\disitB \divide\disitC by 100 \multiply\disitC by 100%
+  \disitD=\cnti \advance\disitD by -\disitA \advance\disitD by -\disitB \advance\disitD by -\disitC \divide\disitD by 10 \multiply\disitD by 10%
+  \disitE=\cnti \advance\disitE by -\disitA \advance\disitE by -\disitC \advance\disitE by -\disitC \advance\disitE by -\disitD%
+  \divide\disitA by 10000 \divide\disitB by 1000 \divide\disitC by 100 \divide\disitD by 10%
+  %\print{\the\disitA\blank \the\disitB\blank \the\disitC\blank \the\disitD\blank \the\disitE\blank}
+  \tmp=\disitA \advance\tmp by \disitB \advance\tmp by \disitC \advance\tmp by \disitD \advance\tmp by \disitE%
+  \ifnum \cntA<\tmp%
+    \ifnum \tmp<\cntB%
+      \advance\result by \cnti%
+    \fi%
+  \fi%
+\advance\cnti by 1 \repeat%
+\print{\the\result}
+\end%

@@ -1,0 +1,8 @@
+\def\print#1{\immediate\write16{#1}}
+\def\substitute#1 #2;{\def\inX{#1} \def\inY{#2}}
+%
+\read-1to\inLine%
+\expandafter\substitute\inLine;%
+\newcount\result \result=\inX \multiply\result by \inY%
+\ifodd\result \print{Odd} \else \print{Even} \fi%
+\end

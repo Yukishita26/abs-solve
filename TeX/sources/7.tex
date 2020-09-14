@@ -1,0 +1,13 @@
+% solved by @ut_tex_club https://gist.github.com/domperor/e6492336e0650cc2ba4fef4d7674b94c
+\read-1to\N
+\newcount\n
+\n\N
+\newcount\c
+\def\loop{\read-1to\I
+\expandafter\ifx\csname\I\endcsname\relax
+\expandafter\def\csname\I\endcsname{}\advance\c1
+\fi
+\ifnum\the\n>1\advance\n-1\loop\fi}
+\loop
+\immediate\write16{\the\c}
+\end

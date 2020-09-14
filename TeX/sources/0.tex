@@ -1,0 +1,12 @@
+\def\print#1{\immediate\write16{#1}}
+\def\substitute#1 #2;{\def\inB{#1} \def\inC{#2}}
+\def\blank{ }
+%
+\read-1to\inA%
+\read-1to\inLine%
+\expandafter\substitute\inLine;%
+\read-1to\inS%
+\newcount\result%
+\result=\inA \advance\result by \inB \advance\result by \inC%
+\print{\the\result\blank\inS}
+\end

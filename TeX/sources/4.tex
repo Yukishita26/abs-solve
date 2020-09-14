@@ -1,0 +1,36 @@
+\def\print#1{\immediate\write16{#1}}
+%
+\newcount\cntA \newcount\cntB \newcount\cntC \newcount\cntX%
+\read-1to\inA \cntA=\inA%
+\read-1to\inB \cntB=\inB%
+\read-1to\inC \cntC=\inC%
+\read-1to\inX \cntX=\inX%
+%
+\newcount\result \result=0%
+\advance\cntA by 1 \advance\cntB by 1%A=A+1, B=B+1
+\newcount\cntij \newcount\cnti \newcount\cntj \newcount\ctmpS \newcount\ctmpT
+%\cntAB=(A+1)(B+1)+1
+\newcount\cntAB \cntAB=\cntA \multiply\cntAB by \cntB \advance\cntAB by 1%
+\multiply\cntC by 50 \advance\cntC by 1%C=50C+1
+\cntij=0
+\loop \ifnum \cntij<\cntAB%
+  %0<=ij<=(A+1)(B+1)
+  %0<=i<=A, 0<=j<=B
+  \cnti=\cntij \divide\cnti by \cntB\relax
+  \multiply\cnti by \cntB \cntj=\cntij \advance\cntj by -\cnti \divide\cnti by \cntB
+  %
+  \multiply\cnti by 500 \multiply\cntj by 100
+  \ctmpS=\cntX \advance\ctmpS by -\cnti \advance\ctmpS by -\cntj
+  \ifnum \ctmpS>-1
+    \ctmpT=\ctmpS \divide\ctmpT by 50 \multiply\ctmpT by 50
+    \ifnum \ctmpS=\ctmpT
+      \ifnum \ctmpS<\cntC
+        % if X-500i-100j>=0 && (X-500i-100j)%50==0 && (X-500i-100j)<=50C
+        \advance\result by 1
+      \fi
+    \fi
+  \fi
+\advance \cntij by 1 \repeat
+%
+\print{\the\result}
+\end

@@ -1,0 +1,63 @@
+\def\print#1{\immediate\write16{#1}}
+\def\makeArray#1#2{ % <array name><array length>
+  \expandafter\def\csname ArrayLength#1\endcsname{#2}%
+  \count0=0%
+  \loop%
+    \expandafter\def\csname ArrayValue\the\count0#1\endcsname{0}%
+  \advance\count0 by 1\ifnum \count0<#2 \repeat%
+}
+\def\setArrayValue#1#2#3{ %<array name><index><value>
+  \expandafter\xdef\csname ArrayValue#2#1\endcsname{#3}
+}
+\def\getArrayValue#1#2#3{ %<array name><index><register>
+  \expandafter\xdef\csname#3\endcsname{\csname ArrayValue#2#1\endcsname}
+}
+\def\popTop#1{ % <length><list>
+  \def\subPopTop##1 ##2;{
+    \def\tempTop{##1}%
+    \def#1{##2}%
+  }
+  \expandafter\subPopTop#1;
+}
+%
+\read-1to\inN%
+\newcount\cntN \cntN=\inN%
+\read-1to\inA%
+\makeArray{arrA}{\cntN}%
+%
+\newcount\cnti \cnti=0%
+\newcount\cntNm \cntNm=\cntN \advance\cntNm by -1%
+\loop \ifnum \cnti<\cntN%
+  \ifnum \cnti=\cntNm%
+    \setArrayValue{arrA}{\the\cnti}{\inA}
+  \else%
+    \popTop\inA%
+    \setArrayValue{arrA}{\the\cnti}{\tempTop}
+  \fi%
+\advance\cnti by 1 \repeat%
+%
+\newcount\cflag \cflag=1%
+\newcount\ctmp \newcount\ctmpp%
+\newcount\r \r=0%
+\loop \ifnum \cflag=1%
+  \cnti=0%
+  {%
+  \loop \ifnum \cnti<\cntN%
+    \getArrayValue{arrA}{\the\cnti}{getTemp}
+    \ctmp=\getTemp%
+    \ctmpp=\ctmp \divide\ctmpp by 2 \multiply\ctmpp by 2%
+    \ifnum \ctmp=\ctmpp%
+      \divide\ctmpp by 2%
+      \setArrayValue{arrA}{\the\cnti}{\the\ctmpp}
+    \else%
+      \global\cflag=0%
+      \advance\cnti by \cntN%
+    \fi%
+  \advance\cnti by 1 \repeat%
+  }%
+  \advance\r by 1%
+\repeat%
+\advance\r by -1%
+%
+\print{\the\r}
+\end%

@@ -1,0 +1,30 @@
+% solves by @ut_tex_club https://gist.github.com/domperor/0ba2e2ec24b2198c56d96521ab59a381
+\read-1to\n
+\newcount\N
+\newcount\T
+\newcount\D
+\N\n
+\def\flag{Yes}
+\def\readline#1 #2 #3{\def\t{#1}\def\x{#2}\def\y{#3}}
+\readline0 0 0
+\def\loop{%
+\let\tt\t
+\let\xx\x
+\let\yy\y
+\read-1to\I\expandafter\readline\I
+\T\t\advance\T-\tt
+\ifnum\x>\xx \D\x\advance\D-\xx\else \D\xx\advance\D-\x\fi
+\ifnum\y>\yy \advance\D\y\advance\D-\yy\else \advance\D\yy\advance\D-\y\fi
+
+\ifnum\the\D>\the\T\def\flag{No}\fi
+\advance\T-\the\D
+\D\the\T
+\divide\D by2
+\multiply\D by2
+
+\ifnum\the\T>\the\D\def\flag{No}\fi
+\ifnum\the\N>1\advance\N-1\loop\fi
+}
+\loop
+\immediate\write16{\flag}
+\end

@@ -1,0 +1,77 @@
+\def\print#1{\immediate\write16{#1}}
+\def\makeArray#1#2{ % <array name><array length> 1-indexed
+  \expandafter\def\csname ArrayLength#1\endcsname{#2}%
+  \count0=0%
+  \loop%
+    \expandafter\def\csname ArrayValue\the\count0#1\endcsname{0}%
+  \advance\count0 by 1\ifnum \count0<#2 \repeat%
+}
+\def\setArrayValue#1#2#3{ %<array name><index><value>
+  \expandafter\xdef\csname ArrayValue#2#1\endcsname{#3}
+}
+\def\getArrayValue#1#2#3{ %<array name><index><register>
+  \expandafter\xdef\csname#3\endcsname{\csname ArrayValue#2#1\endcsname}
+}
+\def\popTop#1{ % <length><list>
+  \def\subPopTop##1 ##2;{
+    \def\tempTop{##1}%
+    \def#1{##2}%
+  }
+  \expandafter\subPopTop#1;
+}
+\def\arraySortDecend#1#2{
+  %\expandafter\count0\csname ArrayLength#1\endcsname
+  \count0=#2 \advance\count0 by -1
+  \count1=0
+  \loop \ifnum \count1<\count0
+    \count2=0
+    {
+    \loop \ifnum \count2<\count0
+      \getArrayValue{#1}{\the\count2}{getTempA}
+      \count3=\count2 \advance\count3 by 1
+      \getArrayValue{#1}{\the\count3}{getTempB}
+      \count4=\getTempA\relax%
+      \count5=\getTempB\relax%
+      %\print{\the\count1,\the\count2,\the\count4,\the\count5}
+      \ifnum \count4<\count5
+        \setArrayValue{#1}{\the\count2}{\the\count5}
+        \setArrayValue{#1}{\the\count3}{\the\count4}
+      \fi
+    \advance\count2 by 1 \repeat
+    }
+  \advance\count1 by 1 \repeat
+}
+%
+\read-1to\inN%
+\newcount\cntN \cntN=\inN%
+\read-1to\inA%
+\makeArray{arrA}{\cntN}%
+%
+\newcount\cnti \cnti=0%
+\newcount\cntNm \cntNm=\cntN \advance\cntNm by -1%
+\loop \ifnum \cnti<\cntN%
+  \ifnum \cnti=\cntNm%
+    \setArrayValue{arrA}{\the\cnti}{\inA}
+  \else%
+    \popTop\inA%
+    \setArrayValue{arrA}{\the\cnti}{\tempTop}
+  \fi%
+\advance\cnti by 1 \repeat%
+%
+\newcount\cnti \cnti=0
+\newcount\cntj \newcount\cTmpS \newcount\cTmpT
+\arraySortDecend{arrA}{\the\cntN}
+%
+\cnti=0\relax%
+\cTmpT=0\relax%
+\loop \ifnum\cnti<\cntN%
+  \getArrayValue{arrA}{\the\cnti}{getTemp}
+  \cTmpS=\getTemp\relax%
+  \ifodd\cnti
+    \advance\cTmpT by -\cTmpS
+  \else
+    \advance\cTmpT by \cTmpS
+  \fi
+\advance\cnti by 1\repeat
+\print{\the\cTmpT}
+\end

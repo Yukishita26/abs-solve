@@ -1,10 +1,7 @@
-readln := method(
-  File standardInput readLine
-)
 ketawa := method(num,
   num asString asList map(asNumber) sum
 )
-l := readln split
+l :=  File standardInput readLiner split
 n := l at(0) asNumber
 a := l at(1) asNumber
 b := l at(2) asNumber

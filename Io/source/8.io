@@ -1,7 +1,4 @@
-readln := method(
-  File standardInput readLine
-)
-l := readln split
+l := File standardInput readLine split
 n := l at(0) asNumber
 y := l at(1) asNumber
 result := "-1 -1 -1"

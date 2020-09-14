@@ -1,5 +1,1 @@
-Regex
-Sequence replace := method(p, q, 
-  self matchesOfRegex(p asRegex) replaceAllWith(q)
-)
-if(File standardInput readLine replace("eraser", "!") replace("erase", "!") replace("dreamer", "!") replace("dream", "!") replace("!", "") == "", "YES", "NO") println
+if(File standardInput readLine asMutable replaceSeq("eraser", "!") replaceSeq("erase", "!") replaceSeq("dreamer", "!") replaceSeq("dream", "!") replaceSeq("!", "") == "", "YES", "NO") println

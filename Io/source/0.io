@@ -6,5 +6,4 @@ l := readln split
 b := l at(0) asNumber
 c := l at(1) asNumber
 s := readln
-write(a + b + c) 
-writeln(" " .. s)
+writeln(a + b + c, " ", s)

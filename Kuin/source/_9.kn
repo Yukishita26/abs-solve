@@ -1,0 +1,9 @@
+func main()
+	var s: []char :: cui@inputStr()
+	do s :: s.replace("eraser", "!")
+	do s :: s.replace("erase", "!")
+	do s :: s.replace("dreamer", "!")
+	do s :: s.replace("dream", "!")
+	do s :: s.replace("!", "")
+	do cui@print((s = "" ?("YES", "NO")) ~ "\n")
+end func

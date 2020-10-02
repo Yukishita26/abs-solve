@@ -1,0 +1,9 @@
+func main()
+	var n: int :: cui@inputInt()
+	var dic: dict<int, int> :: #dict<int, int>
+	for i(0, n - 1)
+		do dic.add(cui@inputInt(), 1)
+	end for
+	do cui@print("\{^dic}\n")
+	
+end func

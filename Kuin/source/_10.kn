@@ -1,0 +1,19 @@
+func main()
+	var n: int :: cui@inputInt()
+	var pre_t: int :: 0
+	var pre_x: int :: 0
+	var pre_y: int :: 0
+	var f: bool :: true
+	for i(0, n - 1)
+		var t: int :: cui@inputInt()
+		var x: int :: cui@inputInt()
+		var y: int :: cui@inputInt()
+		var dt: int :: t - pre_t
+		var dl: int :: (x - pre_x).abs() + (y - pre_y).abs()
+		if(dl > dt | (dl - dt) % 2 = 1)
+			do f :: false
+			break i
+		end if
+	end for
+	do cui@print(f ?("Yes", "No"))
+end func

@@ -1,0 +1,5 @@
+func main()
+	var a: int :: cui@inputInt()
+	var b: int :: cui@inputInt()
+	do cui@print((a % 2 = 0 | b % 2 = 2) ?("Even", "Odd"))
+end func

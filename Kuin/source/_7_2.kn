@@ -1,0 +1,21 @@
+class IntSet()
+	var dic: dict<int, bool>
+	*func ctor()
+		do me.dic :: #dict<int, bool>
+	end func
+	+func add(item: int)
+		do me.dic.add(item, true)
+	end func
+	+func length(): int
+		ret ^ (me.dic)
+	end func
+end class
+
+func main()
+	var n: int :: cui@inputInt()
+	var set: @IntSet :: #@IntSet
+	for i(0, n - 1)
+		do set.add(cui@inputInt())
+	end for
+	do cui@print("\{set.length()}\n")
+end func

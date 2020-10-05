@@ -39,6 +39,19 @@ Steve Dekorteらにより開発されたコンパクトなプロトタイプベ�
 main :- write('Hello, world!').
 ```
 
+## Kuin
+ゲーム開発等の機能が充実した高速な汎用プログラミング言語。機械語にコンパイルされる他、C++やJavascriptに翻訳できる。チューリング完全である。
+
+```js
+```
+※0バイトのソースコードはHello,worldプログラムにコンパイルされる
+
+```js: 明示的な記述
+func main()
+	do cui@print("Hello, world!\n")
+end func
+```
+
 ## JSF**ck
 `[`, `]`, `(`, `)`, `!`, `+`の6つの記号のみで記述されるJavaScriptのサブセット。JavaScriptとして実行可能。チューリング完全である。  
 [AtCoderに登録したら解くべき精選過去問10を「JSFuck」で解いてみた](https://qiita.com/Mopepe51/items/0d5a5a79b8772c78177f)

@@ -10,10 +10,12 @@ func main()
 		var y: int :: cui@inputInt()
 		var dt: int :: t - pre_t
 		var dl: int :: (x - pre_x).abs() + (y - pre_y).abs()
-		if(dl > dt | (dl - dt) % 2 = 1)
+		if(dl > dt | dl % 2 <> dt % 2)
 			do f :: false
-			break i
 		end if
+		do pre_t :: t
+		do pre_x :: x
+		do pre_y :: y
 	end for
-	do cui@print(f ?("Yes", "No"))
+	do cui@print((f ?("Yes", "No")) ~ "\n")
 end func

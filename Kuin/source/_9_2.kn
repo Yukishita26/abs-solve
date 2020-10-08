@@ -1,0 +1,20 @@
+func main()
+	var s: []char :: cui@inputStr()
+	do s.reverse()
+	var i: int :: 0
+	while(i < ^s)
+		if(i + 5 <= ^s & s.sub(i, 5) = "maerd")
+			do i :+ 5
+		elif(i + 7 <= ^s & s.sub(i, 7) = "remaerd")
+			do i :+ 7
+		elif(i + 5 <= ^s & s.sub(i, 5) = "esare")
+			do i :+ 5
+		elif(i + 6 <= ^s & s.sub(i, 6) = "resare")
+			do i :+ 6
+		else
+			do cui@print("NO\n")
+			ret
+		end if
+	end while
+	do cui@print("YES\n")
+end func

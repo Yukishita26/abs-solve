@@ -47,12 +47,12 @@ main :- write('Hello, world!').
 ## Kuin
 ゲーム開発等の機能が充実した高速な汎用プログラミング言語。機械語にコンパイルされる他、C++やJavascriptに翻訳できる。チューリング完全である。
 
-```assembly_x86
+```pascal:helloworld.kn
 ```
 ※0バイトのソースコードはHello,worldプログラムにコンパイルされる
 
-```assembly_x86
-; helloworld.kn(明示的な記述)
+```pascal
+{ helloworld.kn(明示的な記述) }
 func main()
 	do cui@print("Hello, world!\n")
 end func

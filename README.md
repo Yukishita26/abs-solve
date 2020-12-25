@@ -61,6 +61,7 @@ end func
 
 ## 文言（Wenyan-lang）
 漢文のように記述できるプログラミング言語。JavaScriptやRubyなどにトランスパイルできる。チューリング完全である。
+[AtCoderに登録したら解くべき精選過去問10を漢文プログラミング言語「文言（Wenyan）」で解いてみた](https://qiita.com/Mopepe51/items/390631854e6e2036841c)
 
 ```
 吾有一言。曰「「問天地好在。」」。書之。

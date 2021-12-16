@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage{expl3}
+\begin{document}
+\ExplSyntaxOn
+
+% 1行目をstrで読み込み
+\tl_new:N \l__N_tl
+\ior_str_get_term:nN {} \l__N_tl
+% 2行目をtlで読み込み，空白でsplit
+\ior_str_get_term:nN {} \l_tmpa_tl
+\seq_new:N \l__A_seq
+\seq_set_split:NnV \l__A_seq { ~ } \l_tmpa_tl
+
+% すべての要素が2で割れる回数を求める
+\int_new:N \l__shift_count_int
+\int_set:Nn \l__shift_count_int { 0 }
+\bool_new:N \l__all_even_flag_bool
+\bool_set_true:N \l__all_even_flag_bool
+\bool_do_while:Nn \l__all_even_flag_bool {
+	% すべてのAの要素が2で割れるかを確認，そうなら2で割った商をAに格納
+	\seq_clear:N \l_tmpb_seq
+	\seq_map_inline:Nn \l__A_seq {
+		\int_if_odd:nTF { #1 } {
+			\bool_set_false:N \l__all_even_flag_bool
+		}{
+			\seq_push:NV \l_tmpb_seq { \int_div_round:nn { #1 } { 2 } }
+		}
+	}
+	\seq_set_eq:NN \l__A_seq \l_tmpb_seq
+	\bool_if:NTF \l__all_even_flag_bool {
+		% フラグが真なら答えを1増やす
+		\int_incr:N \l__shift_count_int
+	}{
+		% フラグが偽ならexit
+	}
+}
+\iow_term:x { \int_eval:n{ \l__shift_count_int } }
+
+
+\ExplSyntaxOff
+\end{document}

@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage{expl3}
+\begin{document}
+\ExplSyntaxOn
+
+
+% 入力を読み込み
+\tl_new:N \l__N_tl
+\ior_get_term:nN {} \l__N_tl
+\seq_new:N \l__T_seq
+\seq_new:N \l__X_seq
+\seq_new:N \l__Y_seq
+\int_step_inline:nn { \l__N_tl } {
+	\ior_str_get_term:nN {} \l_tmpa_str
+	\seq_set_split:NnV \l_tmpa_seq { ~ } \l_tmpa_str
+	\seq_pop_left:NN \l_tmpa_seq \l_tmpa_tl
+	\seq_push:NV \l__T_seq \l_tmpa_tl
+	\seq_pop_left:NN \l_tmpa_seq \l_tmpa_tl
+	\seq_push:NV \l__X_seq \l_tmpa_tl
+	\seq_pop_left:NN \l_tmpa_seq \l_tmpa_tl
+	\seq_push:NV \l__Y_seq \l_tmpa_tl
+}
+
+\tl_new:N \l__pre_t_tl
+\tl_new:N \l__pre_x_tl
+\tl_new:N \l__pre_y_tl
+\tl_new:N \l__now_t_tl
+\tl_new:N \l__now_x_tl
+\tl_new:N \l__now_y_tl
+\tl_set:Nn \l__pre_t_tl { 0 }
+\tl_set:Nn \l__pre_x_tl { 0 }
+\tl_set:Nn \l__pre_y_tl { 0 }
+\bool_new:N \l__result_bool
+\bool_set_true:N \l__result_bool
+\bool_do_until:nn {\seq_if_empty_p:N \l__T_seq} {
+	\seq_pop_right:NN \l__T_seq \l__now_t_tl
+	\seq_pop_right:NN \l__X_seq \l__now_x_tl
+	\seq_pop_right:NN \l__Y_seq \l__now_y_tl
+	% |Δx|+|Δy|<=Δt かつ (Δx+Δy+Δt)%2==0 ならOK
+	\bool_if:nTF{
+			\int_compare_p:nNn{
+				\int_abs:n {\l__now_x_tl - \l__pre_x_tl} + \int_abs:n {\l__now_y_tl - \l__pre_y_tl}
+			} < {
+				\l__now_t_tl - \l__pre_t_tl + 1
+			} && \int_compare_p:nNn{
+				\int_mod:nn {\l__now_x_tl - \l__pre_x_tl + \l__now_y_tl - \l__pre_y_tl + \l__now_t_tl - \l__pre_t_tl} { 2 }
+			} = {
+				 0
+			}
+	} {
+		% pass
+	} {
+		\bool_set_false:N \l__result_bool
+	}
+	\tl_set_eq:NN \l__pre_t_tl \l__now_t_tl
+	\tl_set_eq:NN \l__pre_x_tl \l__now_x_tl
+	\tl_set_eq:NN \l__pre_y_tl \l__now_y_tl
+}
+
+\iow_term:x { \bool_if:NTF \l__result_bool {Yes} {No} }
+
+\ExplSyntaxOff
+\end{document}

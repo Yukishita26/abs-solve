@@ -1,0 +1,24 @@
+\documentclass{article}
+\usepackage{expl3}
+\begin{document}
+\ExplSyntaxOn
+
+\cs_new:Npn \my_hello:n #1 {
+  Hello~#1!
+}
+
+%置換
+\tl_set:Nn \l_my_tl { That~cat. }
+\regex_replace_once:nnN { at } { is } \l_my_tl
+\iow_term:x { \l_my_tl }
+
+\tl_new:N \temp
+\ior_str_get_term:nN {}{\temp}
+
+\regex_replace_once:nnN { }{z}\temp
+
+%\my_hello:n { expl3 }
+\iow_term:x { \temp }
+\iow_term:x { end }
+\ExplSyntaxOff
+\end{document}

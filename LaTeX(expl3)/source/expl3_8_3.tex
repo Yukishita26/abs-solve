@@ -1,0 +1,72 @@
+\documentclass{article}
+\usepackage{expl3}
+\begin{document}
+\ExplSyntaxOn
+
+\cs_new:Npn \int_div_floor:nn #1 #2 {
+	\int_compare:nNnTF { #1 } < { #2 }{
+		\int_div_truncate:nn { #1 } { #2 } + \int_compare:nNnTF { \int_mod:nn { #1 } { #2 } } = { 0 } {
+			0
+		} {
+			-1
+		}
+	} {
+		\int_div_truncate:nn { #1 } { #2 }
+	}
+}
+\cs_new:Npn \int_div_ceil:nn #1 #2 {
+	\int_compare:nNnTF { #1 } < { #2 }{
+		\int_div_truncate:nn { #1 } { #2 }
+	} {
+		\int_div_truncate:nn { #1 } { #2 } + \int_compare:nNnTF { \int_mod:nn { #1 } { #2 } } = { 0 } {
+			0
+		} {
+			1
+		}
+	}
+}
+
+%\iow_term:x {\int_eval:n{\int_div_ceil {10}{3}}}
+%\iow_term:x {\int_eval:n{\int_div_ceil {-10}{3}}}
+%\iow_term:x {\int_eval:n{\int_div_floor {10}{3}}}
+%\iow_term:x {\int_eval:n{\int_div_floor {-10}{3}}}
+
+% 入力を読み込み
+\ior_str_get_term:nN {} \l_tmpa_str
+\seq_set_split:NnV \l_tmpa_seq { ~ } \l_tmpa_str
+\tl_new:N \l__N_tl
+\tl_new:N \l__Y_tl
+\seq_pop_left:NN \l_tmpa_seq \l__N_tl
+\seq_pop_left:NN \l_tmpa_seq \l__Y_tl
+
+\int_set:Nn \l_tmpb_int { \int_div_floor:nn { \l__Y_tl - 1000 * \l__N_tl } { 1000 } }
+%\int_show:N \l_tmpb_int
+\int_set:Nn \l_tmpa_int { \int_mod:nn { \l_tmpb_int } { 4 } }
+\int_set:Nn \l_tmpb_int { \int_div_floor:nn { \l_tmpb_int - 9 * \l_tmpa_int } { 4 } }
+
+\int_new:N \l__k_min_int
+\int_new:N \l__k_max_int
+\int_set:Nn \l__k_min_int { \int_max:nn
+	{ \int_div_ceil:nn { -1 * \l_tmpa_int } { 4 } }
+	{ \int_div_ceil:nn { \l_tmpa_int + \l_tmpb_int - \l__N_tl } { 5 } } }
+\int_set:Nn \l__k_max_int { \int_div_floor:nn { \l_tmpb_int } { 9 } }
+
+%\int_show:N \l_tmpa_int
+%\int_show:N \l_tmpb_int
+%\int_show:N \l__k_min_int
+%\int_show:N \l__k_max_int
+
+
+\iow_term:x { \int_compare:nNnTF { \l__k_min_int } < { \l__k_max_int + 1 } {
+		\int_eval:n {4 * \l__k_min_int + \l_tmpa_int}
+		\c_space_tl
+		\int_eval:n { -9 * \l__k_min_int + \l_tmpb_int }
+		\c_space_tl
+		\int_eval:n { \l__N_tl - 4 * \l__k_min_int - \l_tmpa_int + 9 * \l__k_min_int - \l_tmpb_int }
+	} {
+		-1~-1~-1
+	}
+}
+
+\ExplSyntaxOff
+\end{document}

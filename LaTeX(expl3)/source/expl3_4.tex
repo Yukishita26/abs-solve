@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage{expl3}
+\begin{document}
+\ExplSyntaxOn
+
+% 入力をtlで読み込み
+\tl_new:N \l__A_tl
+\tl_new:N \l__B_tl
+\tl_new:N \l__C_tl
+\tl_new:N \l__X_tl
+\ior_str_get_term:nN {} \l__A_tl
+\ior_str_get_term:nN {} \l__B_tl
+\ior_str_get_term:nN {} \l__C_tl
+\ior_str_get_term:nN {} \l__X_tl
+
+\int_new:N \l__result_int
+\int_set:Nn \l__result_int { 0 }
+% 0<=a<=A, 0<=b<=B, 0<=c<=C の3重ループ
+\int_new:N \l__a_counter_int
+\int_new:N \l__b_counter_int
+\int_new:N \l__c_counter_int
+\int_set:Nn \l__a_counter_int { 0 }
+\int_do_while:nn { \l__a_counter_int <= \l__A_tl } {
+	\int_set:Nn \l__b_counter_int { 0 }
+	\int_do_while:nn { \l__b_counter_int <= \l__B_tl } {
+		\int_set:Nn \l__c_counter_int { 0 }
+		\int_do_while:nn { \l__c_counter_int <= \l__C_tl } {
+			\int_add:Nn \l__result_int {
+				% 500a+100b+50c=X なら1を，そうでなければ0をresultに足す 
+				\int_compare:nNnTF {
+					 \l__a_counter_int * 500 + \l__b_counter_int * 100 + \l__c_counter_int * 50
+				} = { \l__X_tl } { 1 } { 0 }
+			}
+			\int_incr:N \l__c_counter_int
+		}
+		\int_incr:N \l__b_counter_int
+	}
+	\int_incr:N \l__a_counter_int
+}
+\iow_term:x { \int_eval:n{ \l__result_int } }
+
+
+
+%\cs_new:Npn \_check_abc:nnn #1 #2 #3 {
+%	\int_compare:nNnTF { #1 * 500 + #2 * 100 + #3 * 50} = { \__X_tl } {
+%		1
+%	}{
+%		0
+%	}
+%}
+%\cs_new:Npn \_c_loop:nn #1 #2 {
+%	\int_new:N \l_restult_c
+%	\int_set:Nn \l_result_c { 0 }
+%	\cs_new:Npn \_c_loop_sub:n #3 {
+%		\int_add:Nn \l_result_c { \_check_abc:nnn { #1 } { #2 } { #3 } }
+%	}
+%	\int_step_function:nnN { 0 } { \l__C_tl } \_c_loop_sub:n
+%}
+%
+%\iow_term:x { \_c_loop:nn { 0 } { 0 } }
+
+
+\ExplSyntaxOff
+\end{document}

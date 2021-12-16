@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{expl3}
+\begin{document}
+\ExplSyntaxOn
+
+% 1行目をstrで読み込み
+\tl_new:N \l__S_tl
+\ior_str_get_term:nN {} \l__S_tl
+%\seq_new:N \l__S_seq
+%\seq_set_split:NnV \l__S_seq {} \l__S_tl
+
+% S の中の 1 の数を数える
+\int_new:N \l__result_int
+\int_set:Nn \l__result_int { 0 }
+% token list `\l__S_tl` の内容に対し map を使って for-each する
+\tl_map_inline:Nn \l__S_tl {
+	\int_add:Nn \l__result_int {
+		\int_compare:nNnTF { #1 } = { 1 } { 1 } { 0 }
+	}
+	%\int_add:Nn \l__result_int { #1 }
+}
+\iow_term:x { \int_eval:n{ \l__result_int } }
+
+%\iow_term:x {\seq_item:Nn \l__S_seq {1}}
+%\iow_term:x {\seq_item:Nn \l__S_seq {2}}
+%\iow_term:x {\seq_item:Nn \l__S_seq {3}}
+%\iow_term:x {\seq_count:N \l__S_seq }
+%\seq_pop_left:NN \l__S_seq \l_tmpa_tl 
+%\iow_term:x {\l_tmpa_tl}
+%\seq_pop_left:NN \l__S_seq \l_tmpa_tl 
+%\iow_term:x {\l_tmpa_tl}
+%
+%\iow_term:x { Hello, world }
+%
+\ExplSyntaxOff
+\end{document}

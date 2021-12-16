@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{expl3}
+\begin{document}
+\ExplSyntaxOn
+
+% 文字列を読み取り
+\str_new:N \l__input_str
+\ior_str_get_term:nN {}{\l__input_str}
+
+% 置換
+\regex_replace_all:nnN { eraser }  { ! } \l__input_str
+\regex_replace_all:nnN { erase }   { ! } \l__input_str
+\regex_replace_all:nnN { dreamer } { ! } \l__input_str
+\regex_replace_all:nnN { dream }   { ! } \l__input_str
+\regex_replace_all:nnN { ! } {} \l__input_str
+
+% 空文字列ならYES, そうでなければNOを出力
+\iow_term:x { \str_if_empty:NTF { \l__input_str }{ YES }{ NO } }
+
+\ExplSyntaxOff
+\end{document}

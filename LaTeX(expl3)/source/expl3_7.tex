@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage{expl3}
+\begin{document}
+\ExplSyntaxOn
+
+% 入力を読み込み
+\tl_new:N \l__N_tl
+\ior_get_term:nN {} \l__N_tl
+\seq_new:N \l__D_seq
+\int_step_inline:nn { \l__N_tl } {
+	\ior_get_term:nN {} \l_tmpa_tl
+	\seq_push:NV \l__D_seq \l_tmpa_tl
+}
+
+% 重複を除去
+\seq_remove_duplicates:N \l__D_seq
+% 要素の個数を出力
+\int_set:Nn \l_tmpa_int { \seq_count:N \l__D_seq }
+\iow_term:x { \int_use:N \l_tmpa_int }
+
+
+\ExplSyntaxOff
+\end{document}

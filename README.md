@@ -11,7 +11,8 @@ Donald E. Knuth により開発された組版処理言語。チューリング�
 ```
 
 ## expl3
-TeX言語の煩雑さを改善し、開発性を高めた言語。  チューリング完全である。
+TeX言語の煩雑さを改善し、開発性を高めた言語。  チューリング完全である。  
+[AtCoderに登録したら解くべき精選過去問10をLaTeX3(expl3)で解いてみた](https://qiita.com/Mopepe51/items/d7185771a966ee3f8598)
 
 ```tex
 % helloworld.tex
